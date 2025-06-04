@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Tax Invoice - OM SAI AGENCIES</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      padding: 40px;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f9f9f9;
+    }
+    .invoice-container {
+      width: 794px;
+      background: white;
+      padding: 30px;
+      border: 2px solid red;
+    }
+    .invoice-title {
+      color: red;
+      font-weight: bold;
+      text-align: center;
+      font-size: 24px;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+    }
+    .gst-info {
+      border: 2px solid red;
+      padding: 4px;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+    .table-bordered td, .table-bordered th {
+      border: 1px solid red !important;
+    }
+    .footer-note {
+      font-size: 12px;
+    }
+    .bank-details, .signatures {
+      margin-top: 20px;
+    }
+    .signatures div {
+      display: inline-block;
+      width: 45%;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="invoice-container">
+  <div class="invoice-title">TAX INVOICE<br>OM SAI AGENCIES</div>
+  <div class="subtitle">
+    All Types of Exide Battery & Electronics Spares Etc.<br>
+    Nashik - Aurangabad Road, Nandur Naka, Post Madsangavi, Nashik - 422 003.<br>
+    Email: omsaiagence123@gmail.com | Mob: 8856042480
+  </div>
+
+  <div class="gst-info">
+    GSTIN: 27ALFPD1927KZ5 &nbsp;&nbsp;&nbsp;&nbsp; State: Maharashtra &nbsp;&nbsp;&nbsp;&nbsp; State Code: 27
+  </div>
+
+  <table class="table table-bordered">
+    <tr>
+      <td colspan="3">Details of receiver (Bill To): <input type="text" class="form-control" placeholder="Receiver Name"><br><br> GSTIN No: <input type="text" class="form-control"></td>
+      <td>Invoice No: <input type="text" class="form-control" value="1302"><br>Date: <input type="date" class="form-control"></td>
+    </tr>
+    <tr>
+      <td>Challan No.: <input type="text" class="form-control"><br>Date: <input type="date" class="form-control"></td>
+      <td>P.O. No.: <input type="text" class="form-control"><br>Date: <input type="date" class="form-control"></td>
+      <td>Prod. Order No.: <input type="text" class="form-control"></td>
+      <td>Vendor No.: <input type="text" class="form-control"></td>
+    </tr>
+  </table>
+
+  <table class="table table-bordered text-center">
+    <thead>
+      <tr>
+        <th>Sr. No.</th>
+        <th>Description of Goods</th>
+        <th>HSN/SAC Code</th>
+        <th>Qty.</th>
+        <th>Rate</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td><input type="text" class="form-control" value="XC12 9"></td>
+        <td><input type="text" class="form-control"></td>
+        <td><input type="number" class="form-control" id="qty"></td>
+        <td><input type="text" class="form-control" id="rate"></td>
+        <td><input class="form-control" id="amount" readonly></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table table-bordered">
+    <tr>
+      <td colspan="6">Total Invoice Amount in words:<br><strong id="inWords">---</strong></td>
+      <td><strong>Total Amount</strong><br><span id="total">0.00</span></td>
+    </tr>
+    <tr>
+      <td colspan="6"></td>
+      <td>CGST @9%<br><span id="cgst">0.00</span></td>
+    </tr>
+    <tr>
+      <td colspan="6"></td>
+      <td>SGST @9%<br><span id="sgst">0.00</span></td>
+    </tr>
+    <tr>
+      <td colspan="6"></td>
+      <td><strong>Total Tax Amount</strong><br><span id="tax">0.00</span></td>
+    </tr>
+    <tr>
+      <td colspan="6"></td>
+      <td><strong>Grand Total</strong><br><strong><span id="grand">0.00</span></strong></td>
+    </tr>
+  </table>
+
+  <div class="footer-note">
+    <strong>Terms & Conditions:</strong><br>
+    1) Payment to be Made A/c Payee Cheque/NEFT Only<br>
+    2) Interest @ 18% P.A. For Delayed Payment<br>
+    3) Subject to Nashik Jurisdiction only
+  </div>
+
+  <div class="bank-details">
+    <strong>BANK DETAILS</strong><br>
+    BANK NAME: ___________<br>
+    BRANCH: ___________<br>
+    BANK ACCOUNT NO.: ___________<br>
+    IFSC/RTGS/NEFT CODE: ___________
+  </div>
+
+  <div class="signatures">
+    <div>Receivers Sign & Stamp</div>
+    <div>Authorised Signatory</div>
+  </div>
+</div>
+
+<script>
+  const qty = document.getElementById('qty');
+  const rate = document.getElementById('rate');
+  const amount = document.getElementById('amount');
+  const total = document.getElementById('total');
+  const cgst = document.getElementById('cgst');
+  const sgst = document.getElementById('sgst');
+  const tax = document.getElementById('tax');
+  const grand = document.getElementById('grand');
+  const inWords = document.getElementById('inWords');
+
+  function toWords(n) {
+    const a = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+    const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+
+    if ((n = n.toString()).length > 9) return 'Overflow';
+    let num = ('000000000' + n).substr(-9).match(/^\d{2}(\d{2})(\d{2})(\d{1})(\d{2})$/);
+    if (!num) return '';
+    let str = '';
+    str += (num[1] != 0) ? (a[Number(num[1])] || b[num[1][0]] + ' ' + a[num[1][1]]) + ' Thousand ' : '';
+    str += (num[2] != 0) ? (a[Number(num[2])] || b[num[2][0]] + ' ' + a[num[2][1]]) + ' Hundred ' : '';
+    str += (num[3] != 0) ? a[num[3]] + ' ' : '';
+    str += (num[4] != 0) ? (a[Number(num[4])] || b[num[4][0]] + ' ' + a[num[4][1]]) : '';
+    return str.trim() + ' Rupees Only';
+  }
+
+  function calculate() {
+    const q = parseFloat(qty.value) || 0;
+    const r = parseFloat(rate.value) || 0;
+    const amt = q * r;
+    const cgstAmt = amt * 0.09;
+    const sgstAmt = amt * 0.09;
+    const totalTax = cgstAmt + sgstAmt;
+    const grandTotal = amt + totalTax;
+
+    amount.value = amt.toFixed(2);
+    total.innerText = amt.toFixed(2);
+    cgst.innerText = cgstAmt.toFixed(2);
+    sgst.innerText = sgstAmt.toFixed(2);
+    tax.innerText = totalTax.toFixed(2);
+    grand.innerText = grandTotal.toFixed(2);
+    inWords.innerText = toWords(Math.round(grandTotal));
+  }
+
+  qty.addEventListener('input', calculate);
+  rate.addEventListener('input', calculate);
+  window.onload = calculate;
+</script>
+</body>
+</html>
